@@ -367,10 +367,10 @@
 			var semiAuto2 = [randomChoice(["12", "24", "48"]) + " rounds", "1"];
 			ammo = randomChoice([semiAuto1, semiAuto2]);
 			special.push(randomChoice([
-				'Automatic',
-				'Boost '+ randomChoice(boostDice[tier-1]),
-				'Stun',
-				'-'
+				"Automatic",
+				"Boost " + randomChoice(boostDice[tier-1]),
+				"Stun",
+				"-"
 			]));
 			rangeo -= 30;
 			if (rangeo < 40) {
@@ -385,10 +385,10 @@
 				rangeo = 30;
 			}
 			ammo.push(randomChoice([
-				'1 shell',
-				'2 shells',
-				'6 shells',
-				'12 shells'
+				"1 shell",
+				"2 shells",
+				"6 shells",
+				"12 shells"
 			]));
 			ammo.push("1");
 			bulk = "1";
@@ -458,21 +458,201 @@
 	}
 
 	function heavyWeapon(level) {
-		
+		var tier = getTier(level);
+		var randomDamageType = randomChoice(damageType);
+		var gunType = randomChoice(heavySubType);
+		var printLevel = level;
+
+		// Railgun necessitates a higher level, I guess.
+		if (gunType === "FX Railgun" && level != 20) {
+			level += 1;
+		}
+		damage = randomChoice(heavyDamageCurve[level]) + damageTypeAbbrv[randomDamageType];
+
+		var gunName = gunType.replace("FX", randomDamageType);
+
+		var special = [];
+		var ammo = [];
+
+		// Range
+		var rangeo = 0;
+		rangeo = randomChoice(rangeHeavy);
+		rangeo += (10 * tier);
+		if (randomDamageType === "Laser") {
+			rangeo += 30;
+		}
+		if (rangeo > 120) {
+			rangeo = 120;
+		}
+
+		special.push(randomChoice([
+			"Analog",
+			"",
+			"",
+			""
+		]));
+
+		if (gunType === "FX Cannon") {
+			gunName = gunName.replace("Projectile", "");
+			ammo = [
+				randomChoice(["40", "80", "100"]) + " charges",
+				randomChoice(["2", "4", "5", "10"])
+			];
+			var radius = 5 * tier;
+			rangeo -= 30;
+			if (rangeo < 30) {
+				rangeo = 30;
+			}
+			special.push("Explode (" + radius + " ft.)");
+			special.push("Unwieldy");
+		}
+		else if (gunType === "Heavy FX Repeater") {
+			gunName = gunName.replace("Projectile", "");
+			var semiAuto1= [
+				randomChoice(["60", "80", "100"]) + " charges",
+				randomChoice(["1", "2", "4", "10"])
+			];
+			var semiAuto2= [randomChoice(["12", "24", "48"]) + " rounds", "1"];
+			ammo = randomChoice([semiAuto1, semiAuto2]);
+			special.push("Automatic");
+			special.push(randomChoice(["Penetrating", ""]));
+			rangeo -= 30;
+		}
+		else if (gunType === "FX Thrower") {
+			gunName = gunName.replace("Projectile", "Laser");
+			special.push(randomChoice(["Blast", "Line"]));
+			special.push("Unwieldy");
+			rangeo = 10 + (tier * 5) + randomChoice([0, 5]);
+			if (rangeo > 30) {
+				rangeo = 30;
+			}
+			ammo = [
+				randomChoice(["60", "80", "100"]) + " charges",
+				randomChoice(["2", "4", "10"])
+			];
+		}
+		else if (gunType === "FX Railgun") {
+			gunName = gunName.replace("Projectile", "");
+			special.push("Line");
+			special.push("Penetrating");
+			special.push("Unwieldy");
+			var semiAuto1= [
+				randomChoice(["20", "40"]) + " charges",
+				randomChoice(["2", "4", "10"])
+			];
+			var semiAuto2= [randomChoice(["8", "12", "18", "24"]) + " rounds", "1"]
+			ammo = randomChoice([semiAuto1, semiAuto2]);
+		}
+
+		var bulk = randomChoice(["2", "2", "3"]);
+		if (special.join(", ") === "Analog, -") {
+			special = ["Analog"];
+		}
+
+		// Critical
+		var critical = randomChoice(criticalTypeHeavy[randomDamageType]);
+		// possibility of no critical in low tiers
+		if (tier <= 2) {
+			critical = randomChoice([critical, critical, "-"]);
+		}
+
+		if (critical === "Burn" || critical === "Arc" || critical === "Corrode") {
+			var num, die;
+			switch (level) {
+				case 1: case 2: case 3: case 4: case 5: case 6:
+				case 7: case 8: case 9: case 10: case 11:
+					num = 1;
+					die = randomChoice(["4", "6"]);
+					break;
+				case 12: case 13: case 14: case 15:
+					num = 2;
+					die = randomChoice(["4", "6", "8"]);
+					break;
+				case 16: case 17: case 18:
+					num = 3;
+					die = randomChoice(["4", "6", "8"]);
+					break;
+				case 19: case 20:
+					num = 4;
+					die = randomChoice(["4", "6", "8"]);
+					break;
+				default:
+					console.error("Invalid level when trying to determine critical for longarm.");
+					num = "?";
+					die = "?";
+			}
+			critical = critical + " " + num + "d" + die;
+		}
+
+		print("Level " + printLevel + " " + gunName);
+		print("Heavy - two-handed");
+		print("");
+		print("Damage: " + damage);
+		print("Range: " + rangeo);
+		print("Critical: " + critical);
+		print("Capacity: " + ammo[0]);
+		print("Usage: " + ammo[1]);
+
+		var printSpecial = special.join(", ");
+		print("Special: " + printSpecial);
+		print("Bulk: " + bulk);
 	}
 
 	function sniperWeapon(level) {
-		
+		// TODO
 	}
 
-	function main() {
+	function generateSmallArm() {
 		clearOutput();
-		var level = getRandomInt(1, 20)
+		var level = getRandomInt(1, 20);
 		smallArm(level);
 	}
 
+	function generateLongarm() {
+		clearOutput();
+		var level = getRandomInt(1, 20);
+		longarm(level);
+	}
+
+	function generateHeavyWeapon() {
+		clearOutput();
+		var level = getRandomInt(1, 20);
+		heavyWeapon(level);
+	}
+
+	function generateSniperWeapon() {
+		clearOutput();
+		var level = getRandomInt(1, 20);
+		sniperWeapon(level);
+	}
+
+	function generateRandomWeapon() {
+		clearOutput();
+		var level = getRandomInt(1, 20);
+		var weaponType = randomChoice(["small arm", "longarm", "heavy weapon"]);
+		switch (weaponType) {
+			case "small arm":
+				smallArm(level);
+				break;
+			case "longarm":
+				longarm(level);
+				break;
+			case "heavy weapon":
+				heavyWeapon(level);
+				break;
+			case "sniper weapon":
+				sniperWeapon(level);
+				break;
+			default:
+				console.error("Invalide type of weapon to generate.");
+		}
+	}
+
 	$(document).ready(function () {
-		var $generateButton = $("#generate");
-		$generateButton.on("click", main);
+		$("#generateSmallArm").on("click", generateSmallArm);
+		$("#generateLongarm").on("click", generateLongarm);
+		$("#generateHeavyWeapon").on("click", generateHeavyWeapon);
+		$("#generateSniperWeapon").on("click", generateSniperWeapon);
+		$("#generateRandomWeapon").on("click", generateRandomWeapon);
 	});
 })(jQuery);
