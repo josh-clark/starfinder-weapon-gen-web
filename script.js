@@ -174,6 +174,21 @@
 	}
 
 	/**
+	 * Nondestructively remove any blank entry from an array.
+	 * @param array array
+	 * @return array
+	 */
+	function removeBlankValues(array) {
+		var splicedArray = array.slice(0);
+		while (splicedArray.indexOf("") !== -1) {
+			var index = splicedArray.indexOf("");
+			splicedArray.splice(index, 1);
+		}
+		
+		return splicedArray;
+	}
+
+	/**
 	* Returns a random integer between min (inclusive) and max (inclusive)
 	* Using Math.round() will give you a non-uniform distribution!
 	*/
@@ -341,6 +356,7 @@
 		print("Capacity: " + ammo[0]);
 		print("Usage: " + ammo[1]);
 
+		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
 		print("Special: " + printSpecial);
 		print("Bulk: " + "L");
@@ -485,6 +501,7 @@
 		print("Capacity: " + ammo[0]);
 		print("Usage: " + ammo[1]);
 
+		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
 		print("Special: " + printSpecial);
 		print("Bulk: " + bulk);
@@ -626,6 +643,7 @@
 		print("Capacity: " + ammo[0]);
 		print("Usage: " + ammo[1]);
 
+		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
 		print("Special: " + printSpecial);
 		print("Bulk: " + bulk);
@@ -746,6 +764,7 @@
 		print("Capacity: " + ammo[0]);
 		print("Usage: " + ammo[1]);
 
+		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
 		print("Special: " + printSpecial);
 		print("Bulk: " + bulk);
