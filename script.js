@@ -197,13 +197,29 @@
 	}
 
 	function print(string) {
-		var $outputArea = $(".output-area").first();
+		var $outputArea = $(".output.area").first();
 		$outputArea.append("<div>" + string + "</div>");
 	}
 
 	function clearOutput(string) {
-		var $outputArea = $(".output-area").first();
+		var $outputArea = $(".output.area").first();
 		$outputArea.empty();
+	}
+
+	/**
+	 * Get the number value from the Weapon Level field, or pick one randomly
+	 * if the field is blank or invalid.
+	 * @return number
+	 *   Integer between 1 and 20.
+	 */
+	function getLevel() {
+		var level = parseInt($("#levelField").val(), 10);
+
+		if (level < 1 || level > 20 || isNaN(level)) {
+			level = getRandomInt(1, 20);
+		}
+
+		return level;
 	}
 
 	/**
@@ -772,31 +788,31 @@
 
 	function generateSmallArm() {
 		clearOutput();
-		var level = getRandomInt(1, 20);
+		var level = getLevel();
 		smallArm(level);
 	}
 
 	function generateLongarm() {
 		clearOutput();
-		var level = getRandomInt(1, 20);
+		var level = getLevel();
 		longarm(level);
 	}
 
 	function generateHeavyWeapon() {
 		clearOutput();
-		var level = getRandomInt(1, 20);
+		var level = getLevel();
 		heavyWeapon(level);
 	}
 
 	function generateSniperWeapon() {
 		clearOutput();
-		var level = getRandomInt(1, 20);
+		var level = getLevel();
 		sniperWeapon(level);
 	}
 
 	function generateRandomWeapon() {
 		clearOutput();
-		var level = getRandomInt(1, 20);
+		var level = getLevel();
 		var weaponType = randomChoice(["small arm", "longarm", "heavy weapon", "sniper weapon"]);
 		switch (weaponType) {
 			case "small arm":

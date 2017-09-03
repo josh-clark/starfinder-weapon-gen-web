@@ -1,0 +1,39 @@
+body {
+	display: flex;
+	flex-direction: row;
+}
+
+@media(max-width: 480px) {
+	body {
+		flex-direction: column;
+	}
+}
+
+.area {
+	margin: 1rem;
+}
+
+.input.area {
+	display: flex;
+	flex-direction: column;
+}
+
+.input.area input {
+	text-align: center;
+}
+
+.input.area input,
+.input.area button {
+	height: 1.5rem;
+	margin: 0.25rem 0;
+}
+
+.input.area input:first-child,
+.input.area button:first-child {
+	height: 1.5rem;
+	margin-top: 0;
+}
+
+.output.area {
+	
+}
