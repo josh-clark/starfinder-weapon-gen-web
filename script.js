@@ -201,7 +201,22 @@
 		$outputArea.append("<div>" + string + "</div>");
 	}
 
-	function clearOutput(string) {
+	function printFancy(cssClass, label, string) {
+		var $outputArea = $(".output.area").first();
+		$div = $("<div/>");
+		if (cssClass !== undefined) {
+			$div.addClass(cssClass);
+		}
+		if (label !== undefined) {
+			$div.append("<span class=\"label\">" + label + "</span>");
+		}
+		if (string !== undefined) {
+			$div.append("<span>" + string + "</span>");
+		}
+		$outputArea.append($div);
+	}
+
+	function clearOutput() {
 		var $outputArea = $(".output.area").first();
 		$outputArea.empty();
 	}
@@ -363,19 +378,19 @@
 			critical = critical + " " + num + "d" + die;
 		}
 
-		print("Level " + printLevel + " " + gunName);
-		print("Small arm - one-handed");
-		print("");
-		print("Damage: " + damage);
-		print("Range: " + rangeo + " ft.");
-		print("Critical: " + critical);
-		print("Capacity: " + ammo[0]);
-		print("Usage: " + ammo[1]);
+		printFancy("weapon-name", undefined, "Level " + printLevel + " " + gunName);
+		printFancy("weapon-type", undefined, "Small arm - one-handed");
+
+		printFancy("damage", "Damage: ", damage);
+		printFancy("range", "Range: ", rangeo + " ft.");
+		printFancy("critical", "Critical: ", critical);
+		printFancy("capacity", "Capacity: ", ammo[0]);
+		printFancy("usage", "Usage: ", ammo[1]);
 
 		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
-		print("Special: " + printSpecial);
-		print("Bulk: " + "L");
+		printFancy("special", "Special: ", printSpecial);
+		printFancy("bulk", "Bulk: ", "L");
 	}
 
 	function longarm(level) {
@@ -508,19 +523,19 @@
 			critical = critical + " " + num + "d" + die;
 		}
 
-		print("Level " + printLevel + " " + gunName);
-		print("Longarm - two-handed");
-		print("");
-		print("Damage: " + damage);
-		print("Range: " + rangeo + " ft.");
-		print("Critical: " + critical);
-		print("Capacity: " + ammo[0]);
-		print("Usage: " + ammo[1]);
+		printFancy("weapon-name", undefined, "Level " + printLevel + " " + gunName);
+		printFancy("weapon-type", undefined, "Longarm - two-handed");
+
+		printFancy("damage", "Damage: ", damage);
+		printFancy("range", "Range: ", rangeo + " ft.");
+		printFancy("critical", "Critical: ", critical);
+		printFancy("capacity", "Capacity: ", ammo[0]);
+		printFancy("usage", "Usage: ", ammo[1]);
 
 		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
-		print("Special: " + printSpecial);
-		print("Bulk: " + bulk);
+		printFancy("special", "Special: ", printSpecial);
+		printFancy("bulk", "Bulk: ", bulk);
 	}
 
 	function heavyWeapon(level) {
@@ -650,19 +665,19 @@
 			critical = critical + " " + num + "d" + die;
 		}
 
-		print("Level " + printLevel + " " + gunName);
-		print("Heavy - two-handed");
-		print("");
-		print("Damage: " + damage);
-		print("Range: " + rangeo + " ft.");
-		print("Critical: " + critical);
-		print("Capacity: " + ammo[0]);
-		print("Usage: " + ammo[1]);
+		printFancy("weapon-name", undefined, "Level " + printLevel + " " + gunName);
+		printFancy("weapon-type", undefined, "Heavy - two-handed");
+
+		printFancy("damage", "Damage: ", damage);
+		printFancy("range", "Range: ", rangeo + " ft.");
+		printFancy("critical", "Critical: ", critical);
+		printFancy("capacity", "Capacity: ", ammo[0]);
+		printFancy("usage", "Usage: ", ammo[1]);
 
 		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
-		print("Special: " + printSpecial);
-		print("Bulk: " + bulk);
+		printFancy("special", "Special: ", printSpecial);
+		printFancy("bulk", "Bulk: ", bulk);
 	}
 
 	function sniperWeapon(level) {
@@ -771,19 +786,19 @@
 			critical = critical + " " + num + "d" + die;
 		}
 
-		print("Level " + printLevel + " " + gunName);
-		print("Sniper - two-handed");
-		print("");
-		print("Damage: " + damage);
-		print("Range: " + rangeo + " ft.");
-		print("Critical: " + critical);
-		print("Capacity: " + ammo[0]);
-		print("Usage: " + ammo[1]);
+		printFancy("weapon-name", undefined, "Level " + printLevel + " " + gunName);
+		printFancy("weapon-type", undefined, "Sniper - two-handed");
+
+		printFancy("damage", "Damage: ", damage);
+		printFancy("range", "Range: ", rangeo + " ft.");
+		printFancy("critical", "Critical: ", critical);
+		printFancy("capacity", "Capacity: ", ammo[0]);
+		printFancy("usage", "Usage: ", ammo[1]);
 
 		special = removeBlankValues(special);
 		var printSpecial = special.join(", ");
-		print("Special: " + printSpecial);
-		print("Bulk: " + bulk);
+		printFancy("special", "Special: ", printSpecial);
+		printFancy("bulk", "Bulk: ", bulk);
 	}
 
 	function generateSmallArm() {
@@ -838,5 +853,6 @@
 		$("#generateHeavyWeapon").on("click", generateHeavyWeapon);
 		$("#generateSniperWeapon").on("click", generateSniperWeapon);
 		$("#generateRandomWeapon").on("click", generateRandomWeapon);
+		$("#clearOutput").on("click", clearOutput);
 	});
 })(jQuery);

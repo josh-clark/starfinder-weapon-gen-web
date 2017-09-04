@@ -1,6 +1,7 @@
 body {
 	display: flex;
 	flex-direction: row;
+	font-size: 16px;
 }
 
 @media(max-width: 480px) {
@@ -25,15 +26,35 @@ body {
 .input.area input,
 .input.area button {
 	height: 1.5rem;
-	margin: 0.25rem 0;
+	margin: 0 0 0.5rem;
 }
 
-.input.area input:first-child,
-.input.area button:first-child {
-	height: 1.5rem;
-	margin-top: 0;
+.output.area div {
+	margin-bottom: 0.125rem;
+	min-width: 320px;
 }
 
-.output.area {
-	
+.output.area div span {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.output.area div .label {
+	width: 4.5rem;
+}
+
+.output.area .weapon-name {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.output.area .weapon-type {
+	font-style: italic;
+	margin-bottom: 0.5rem;
+}
+
+.output.area .weapon-name span,
+.output.area .weapon-type span {
+	max-width: none;
+	width: auto;
 }
